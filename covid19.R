@@ -7,8 +7,8 @@ library(readr)
 library(dplyr)
 library(plotly)
 
-# Get data from John Hopkins public repo
-covid <- fread("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv", fill=TRUE)
+# Get data from John Hopkins public repo # UPDATE: Changed file name
+covid <- fread("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", fill=TRUE)
 # Map and province info not required
 covid$`Province/State` <- NULL
 covid$Lat <- NULL
