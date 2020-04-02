@@ -9,10 +9,15 @@ library(plotly)
 
 # Get data from John Hopkins public repo # UPDATE: Changed file name
 covid <- fread("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", fill=TRUE)
+covidDeaths <- fread("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", fill=TRUE)
+
 # Map and province info not required
 covid$`Province/State` <- NULL
 covid$Lat <- NULL
 covid$Long <- NULL
+covidDeaths$`Province/State` <- NULL
+covidDeaths$Lat <- NULL
+covidDeaths$Long <- NULL
 
 # Reshape
 covLong <- melt(covid, id.vars = "Country/Region")
@@ -46,7 +51,7 @@ df$Country <- reorder(df$Country, -df$n, sum)
 p1 <- ggplot(subset(df, axis > 20), aes(x=axis, y=n, group=Country, color=Country, shape= Country)) + 
   geom_point(size=4,alpha=1) + geom_line(alpha=1) + scale_colour_tableau(palette = "Classic 10 Medium") +  
     ggtitle("Covid-19 cases by country (aligned)") + scale_shape_manual(values = c(20, 20, 20, 20)) +
-  scale_y_continuous(breaks=seq(0, 200000, 5000), labels = label_number(big.mark = ".", decimal.mark = ",")) + 
+  scale_y_continuous(breaks=seq(0, 500000, 5000), labels = label_number(big.mark = ".", decimal.mark = ",")) + 
   xlab("Aligned days since first patients") + ylab("No. of cases") + theme_bw() + 
   theme(panel.grid.major.y  = element_line(color = "gray60", linetype = "dotted"), 
         panel.grid.major.x  = element_line(color = "gray80", linetype = "dotted"),
@@ -58,7 +63,7 @@ p2 <- ggplot(df, aes(x=date, y=n, group=Country, color=Country, shape= Country))
   geom_point(size=4,alpha=1) + geom_line(alpha=1) + scale_colour_tableau(palette = "Classic 10 Medium") +  
   ggtitle("Covid-19 cases by country") + scale_shape_manual(values = c(20, 20, 20, 20)) +
   scale_x_date(labels = date_format("%d.%m."), date_breaks="5 days") +
-  scale_y_continuous(breaks=seq(0, 200000, 5000), labels = label_number(big.mark = ".", decimal.mark = ",")) + 
+  scale_y_continuous(breaks=seq(0, 500000, 5000), labels = label_number(big.mark = ".", decimal.mark = ",")) + 
   xlab("Date") + ylab("No. of cases") + theme_bw() + 
   theme(panel.grid.major.y  = element_line(color = "gray60", linetype = "dotted"), 
         panel.grid.major.x  = element_line(color = "gray80", linetype = "dotted"),
